@@ -25,5 +25,11 @@ RSpec.describe "Api::CountriesController", type: :request do
       body = JSON.parse(response.body)
       expect(body["data"]["name"]).to eq("Zarkovia")
     end
+
+    it "500 if the creation fail" do
+      data = { data: { name: "Zarkovia" }}
+      post api_countries_path, params: data, headers: {"Content-Type" => "application/json"}, as: :json
+      expect(response).to have_http_status(422)
+    end
   end
 end
